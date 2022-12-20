@@ -2,26 +2,26 @@ export const clothesCategories = [
   {
     title: "Hats",
     id: "1",
-    imageUrl: "",
+    imageUrl: "images/categories/hats.png",
   },
   {
     title: "Jackets",
     id: "2",
-    imageUrl: "",
+    imageUrl: "images/categories/jackets.png",
   },
   {
     title: "Sneakers",
     id: "3",
-    imageUrl: "",
+    imageUrl: "images/categories/sneakers.png",
   },
   {
     title: "Womens",
     id: "4",
-    imageUrl: "",
+    imageUrl: "images/categories/womens.png",
   },
   {
     title: "Mens",
     id: "5",
-    imageUrl: "",
+    imageUrl: "images/categories/mens.png",
   },
 ];

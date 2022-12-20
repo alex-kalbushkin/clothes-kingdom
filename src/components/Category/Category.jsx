@@ -11,7 +11,7 @@ const Category = ({ category }) => {
         style={{ backgroundImage: `url(${imageUrl})` }}
       />
 
-      <div className={styles.categoryMainContainer}>
+      <div className={styles.categoryBodyContainer}>
         <div className={styles.categoryTitle}>{title}</div>
         <div className={styles.shopNowMessage}>{SHOP_NOW_TITLE}</div>
       </div>
