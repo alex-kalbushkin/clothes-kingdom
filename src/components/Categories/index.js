@@ -1,1 +1,1 @@
-export { default } from "./Categories.jsx";
+export { default } from "./Categories";

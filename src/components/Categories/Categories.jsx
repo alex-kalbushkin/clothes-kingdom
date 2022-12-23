@@ -1,8 +1,7 @@
-import Category from "../Category";
-import { clothesCategories } from "../../mocks/categories";
+import Category from "../category";
 import styles from "./categories.styles.module.scss";
 
-const Categories = () => {
+const Categories = ({ clothesCategories }) => {
   return (
     <div className={styles.categoriesContainer}>
       {clothesCategories.map((category) => (
