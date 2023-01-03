@@ -1,4 +1,4 @@
-import Categories from "../../components/categories";
+import Categories from "../../components/Categories";
 import { clothesCategories } from "../../mocks/categories";
 
 function Home() {

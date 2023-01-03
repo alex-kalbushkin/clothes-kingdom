@@ -1,4 +1,4 @@
-import Category from "../category";
+import Category from "../Category";
 import styles from "./categories.styles.module.scss";
 
 const Categories = ({ clothesCategories }) => {

@@ -3,12 +3,12 @@ import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDaFOXgUUE6pcXPoOcKWX3EDYTgZDQlBaU",
-  authDomain: "clothes-kingdom.firebaseapp.com",
-  projectId: "clothes-kingdom",
-  storageBucket: "clothes-kingdom.appspot.com",
-  messagingSenderId: "121500522438",
-  appId: "1:121500522438:web:02a0053170dc5327ee44c7",
+  apiKey: "AIzaSyAYbGTmhpkyWF616diJAaR_uxgOmOReB6I",
+  authDomain: "clothes-kingdom-97e02.firebaseapp.com",
+  projectId: "clothes-kingdom-97e02",
+  storageBucket: "clothes-kingdom-97e02.appspot.com",
+  messagingSenderId: "1008830544001",
+  appId: "1:1008830544001:web:3d5b2eb0c9e35d8cbc3580",
 };
 
 const fireBaseApp = initializeApp(firebaseConfig);
@@ -19,6 +19,7 @@ provider.setCustomParameters({
 });
 
 export const auth = getAuth();
+
 export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
 
 const db = getFirestore(fireBaseApp);
