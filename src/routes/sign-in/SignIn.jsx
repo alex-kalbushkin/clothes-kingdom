@@ -14,13 +14,7 @@ function SignIn() {
   return (
     <div>
       <h1> Sign In Page</h1>
-      <button
-        onClick={() => {
-          logGoogleUser();
-        }}
-      >
-        Sing In with Google Popup
-      </button>
+      <button onClick={logGoogleUser}>Sing In with Google Popup</button>
 
       <SignUpForm />
     </div>
