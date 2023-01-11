@@ -28,6 +28,14 @@ export const auth = getAuth();
 export const signInWithGooglePopup = async () =>
   await signInWithPopup(auth, provider);
 
+export const createAuthUserWithEmailAndPassword = async (email, password) => {
+  if (!email || !password) {
+    return;
+  }
+
+  return await createUserWithEmailAndPassword(auth, email, password);
+};
+
 const db = getFirestore(fireBaseApp);
 
 export const createUserDocFromAuth = async (userAuth, additionalInfo = {}) => {
@@ -56,12 +64,4 @@ export const createUserDocFromAuth = async (userAuth, additionalInfo = {}) => {
   }
 
   return userDocRef;
-};
-
-export const createAuthUserWithEmailAndPassword = async (email, password) => {
-  if (!email || !password) {
-    return;
-  }
-
-  return await createUserWithEmailAndPassword(auth, email, password);
 };
