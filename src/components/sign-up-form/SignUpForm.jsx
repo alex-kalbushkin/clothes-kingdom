@@ -62,7 +62,7 @@ const SignUpForm = () => {
   return (
     <div className={styles.signUpFormContainer}>
       <h2>Don't have an account?</h2>
-      <span>Sign up with email and password</span>
+      <span>Sign up with your email and password</span>
 
       <form onSubmit={handleSubmit}>
         <FormInput
@@ -101,8 +101,7 @@ const SignUpForm = () => {
           onChange={handleChange}
         />
 
-        {/* <button type="submit">Submit</button> */}
-        <Button type="submit">Submit</Button>
+        <Button type="submit">Sign up</Button>
       </form>
     </div>
   );

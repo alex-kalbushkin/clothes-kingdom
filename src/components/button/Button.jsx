@@ -7,7 +7,10 @@ const BUTTON_CLASSES = {
 
 function Button({ children, buttonType, ...otherProps }) {
   return (
-    <button className={`${styles.button} ${BUTTON_CLASSES[buttonType]}`}>
+    <button
+      className={`${styles.button} ${BUTTON_CLASSES[buttonType]}`}
+      {...otherProps}
+    >
       {children}
     </button>
   );
