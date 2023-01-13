@@ -1,4 +1,5 @@
-import { useCallback, useState } from "react";
+import { useCallback, useContext, useState } from "react";
+import { UserContext } from "../../contexts/UserContext";
 import {
   createUserDocFromAuth,
   signInUserWithEmailAndPassword,
@@ -17,22 +18,31 @@ function SignInForm() {
   const [formFields, setFormFields] = useState(initialFormFieldsState);
   const { email, password } = formFields;
 
+  const { setCurrentUser } = useContext(UserContext);
+
   const resetFormFields = useCallback(() => {
     setFormFields(initialFormFieldsState);
   }, []);
 
   const handleSignInWithGoogle = async () => {
     const { user } = await signInWithGooglePopup();
-    await createUserDocFromAuth(user);
+
+    if (user) {
+      setCurrentUser(user);
+      await createUserDocFromAuth(user);
+    }
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      await signInUserWithEmailAndPassword(email, password);
+      const { user } = await signInUserWithEmailAndPassword(email, password);
 
-      resetFormFields();
+      if (user) {
+        setCurrentUser(user);
+        resetFormFields();
+      }
     } catch (error) {
       switch (error.code) {
         case "auth/wrong-password":
