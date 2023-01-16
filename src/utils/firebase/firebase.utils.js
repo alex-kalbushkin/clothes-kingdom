@@ -3,12 +3,14 @@ import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
   getAuth,
+  onAuthStateChanged,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
 } from "firebase/auth";
 import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
 
+// start firebase config block ---
 const firebaseConfig = {
   apiKey: "AIzaSyAYbGTmhpkyWF616diJAaR_uxgOmOReB6I",
   authDomain: "clothes-kingdom-97e02.firebaseapp.com",
@@ -26,28 +28,9 @@ provider.setCustomParameters({
 });
 
 export const auth = getAuth();
+// end firebase config block ---
 
-export const signInWithGooglePopup = async () =>
-  await signInWithPopup(auth, provider);
-
-export const createAuthUserWithEmailAndPassword = async (email, password) => {
-  if (!email || !password) {
-    return;
-  }
-
-  return await createUserWithEmailAndPassword(auth, email, password);
-};
-
-export const signInUserWithEmailAndPassword = async (email, password) => {
-  if (!email || !password) {
-    return;
-  }
-
-  return await signInWithEmailAndPassword(auth, email, password);
-};
-
-export const signOutUser = async () => await signOut(auth);
-
+// start firestore block ---
 const db = getFirestore(fireBaseApp);
 
 export const createUserDocFromAuth = async (userAuth, additionalInfo = {}) => {
@@ -77,3 +60,30 @@ export const createUserDocFromAuth = async (userAuth, additionalInfo = {}) => {
 
   return userDocRef;
 };
+// end firestore block ---
+
+// start user auth block ---
+export const signInWithGooglePopup = async () =>
+  await signInWithPopup(auth, provider);
+
+export const createAuthUserWithEmailAndPassword = async (email, password) => {
+  if (!email || !password) {
+    return;
+  }
+
+  return await createUserWithEmailAndPassword(auth, email, password);
+};
+
+export const signInUserWithEmailAndPassword = async (email, password) => {
+  if (!email || !password) {
+    return;
+  }
+
+  return await signInWithEmailAndPassword(auth, email, password);
+};
+
+export const signOutUser = async () => await signOut(auth);
+
+export const onAuthStateChangedObserver = (callback) =>
+  onAuthStateChanged(auth, callback);
+// end user auth block ---

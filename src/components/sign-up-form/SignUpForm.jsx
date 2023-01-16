@@ -1,5 +1,4 @@
-import { useCallback, useContext, useState } from "react";
-import { UserContext } from "../../contexts/UserContext";
+import { useCallback, useState } from "react";
 import {
   createAuthUserWithEmailAndPassword,
   createUserDocFromAuth,
@@ -18,8 +17,6 @@ const initialFormFieldsState = {
 const SignUpForm = () => {
   const [formFields, setFormFields] = useState(initialFormFieldsState);
   const { displayName, email, password, confirmPassword } = formFields;
-
-  const { setCurrentUser } = useContext(UserContext);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -46,8 +43,6 @@ const SignUpForm = () => {
       );
 
       if (user) {
-        setCurrentUser(user);
-
         await createUserDocFromAuth(user, {
           displayName,
         });

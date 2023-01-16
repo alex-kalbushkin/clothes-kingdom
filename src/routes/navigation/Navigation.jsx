@@ -1,17 +1,14 @@
 import { useContext } from "react";
 import { Outlet, Link } from "react-router-dom";
 import { ReactComponent as Logo } from "../../assets/crown.svg";
+import CartDropdown from "../../components/cart-dropdown";
+import CartIcon from "../../components/cart-icon";
 import { UserContext } from "../../contexts/UserContext";
 import { signOutUser } from "../../utils/firebase";
 import styles from "./navigation.styles.module.scss";
 
 function Navigation() {
-  const { currentUser, setCurrentUser } = useContext(UserContext);
-
-  const signOutHandler = async () => {
-    await signOutUser();
-    setCurrentUser(null);
-  };
+  const { currentUser } = useContext(UserContext);
 
   return (
     <>
@@ -25,7 +22,7 @@ function Navigation() {
           </Link>
 
           {currentUser ? (
-            <span className={styles.navLink} onClick={signOutHandler}>
+            <span className={styles.navLink} onClick={signOutUser}>
               SIGN OUT
             </span>
           ) : (
@@ -33,7 +30,10 @@ function Navigation() {
               SIGN IN
             </Link>
           )}
+          <CartIcon />
         </div>
+
+        <CartDropdown />
       </div>
 
       <Outlet />
