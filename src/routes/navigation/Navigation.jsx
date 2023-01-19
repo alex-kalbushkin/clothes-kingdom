@@ -3,12 +3,14 @@ import { Outlet, Link } from "react-router-dom";
 import { ReactComponent as Logo } from "../../assets/crown.svg";
 import CartDropdown from "../../components/cart-dropdown";
 import CartIcon from "../../components/cart-icon";
+import { CartContext } from "../../contexts/CartContext";
 import { UserContext } from "../../contexts/UserContext";
 import { signOutUser } from "../../utils/firebase";
 import styles from "./navigation.styles.module.scss";
 
 function Navigation() {
   const { currentUser } = useContext(UserContext);
+  const { isCartOpen } = useContext(CartContext);
 
   return (
     <>
@@ -33,7 +35,7 @@ function Navigation() {
           <CartIcon />
         </div>
 
-        <CartDropdown />
+        {isCartOpen && <CartDropdown />}
       </div>
 
       <Outlet />
