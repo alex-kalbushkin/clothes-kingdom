@@ -5,18 +5,41 @@ export const CartContext = createContext({
   isCartOpen: false,
   setIsCartDropdownOpen: () => {},
   cartItems: [],
+  cartTotalCount: 0,
+  cartTotalPrice: 0,
   addItemToCart: () => {},
+  removeItemFromCart: () => {},
+  clearItemFromCart: () => {},
 });
 
-const addCartItem = (cartItems, product) => {
+const addOrRemoveCartItem = (cartItems, product, isAddItem) => {
   const currentCartItems = [...cartItems];
-
   const itemIndex = currentCartItems.findIndex((i) => i.id === product.id);
 
-  if (itemIndex !== -1) {
-    currentCartItems[itemIndex].quantity += 1;
+  const currentItem = itemIndex !== -1 ? currentCartItems[itemIndex] : null;
+
+  if (isAddItem) {
+    currentItem
+      ? (currentItem.quantity += 1)
+      : currentCartItems.push({ ...product, quantity: 1 });
   } else {
-    currentCartItems.push({ ...product, quantity: 1 });
+    currentItem.quantity === 1
+      ? currentCartItems.splice(itemIndex, 1)
+      : (currentItem.quantity -= 1);
+  }
+
+  return currentCartItems;
+};
+
+const deleteCartItem = (cartItems, cartItem) => {
+  const currentCartItems = [...cartItems];
+
+  const itemForDeleteIndex = currentCartItems.findIndex(
+    (item) => item.id === cartItem.id
+  );
+
+  if (itemForDeleteIndex !== -1) {
+    currentCartItems.splice(itemForDeleteIndex, 1);
   }
 
   return currentCartItems;
@@ -49,17 +72,25 @@ export const CartContextProvider = ({ children }) => {
     setIsCartOpen((prevIsCartOpenStatus) => !prevIsCartOpenStatus);
   };
 
-  const addItemToCart = (productToAdd) => {
-    setCartItems(addCartItem(cartItems, productToAdd));
+  const addItemToCart = (product) => {
+    setCartItems(addOrRemoveCartItem(cartItems, product, true));
+  };
+  const removeItemFromCart = (cartItem) => {
+    setCartItems(addOrRemoveCartItem(cartItems, cartItem, false));
+  };
+  const clearItemFromCart = (cartItem) => {
+    setCartItems(deleteCartItem(cartItems, cartItem));
   };
 
   const cartContextValue = {
     isCartOpen,
     setIsCartDropdownOpen,
     cartItems,
-    addItemToCart,
     cartTotalCount,
     cartTotalPrice,
+    addItemToCart,
+    removeItemFromCart,
+    clearItemFromCart,
   };
 
   return (
