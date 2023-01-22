@@ -8,7 +8,16 @@ import {
   signInWithPopup,
   signOut,
 } from "firebase/auth";
-import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  getFirestore,
+  query,
+  setDoc,
+  writeBatch,
+} from "firebase/firestore";
 
 // start firebase config block ---
 const firebaseConfig = {
@@ -60,6 +69,38 @@ export const createUserDocFromAuth = async (userAuth, additionalInfo = {}) => {
 
   return userDocRef;
 };
+
+export const addCollectionAndDocs = async (collectionKeyName, objectsToAdd) => {
+  const batch = writeBatch(db);
+  const collectionRef = collection(db, collectionKeyName);
+
+  console.log("objectsToAdd: ", objectsToAdd);
+
+  objectsToAdd.forEach((object) => {
+    const docRef = doc(collectionRef, object.title.toLowerCase());
+    batch.set(docRef, object);
+  });
+
+  await batch.commit();
+  console.log("Batch done!");
+};
+
+export const getCollectionAndDocs = async (collectionKeyName) => {
+  const collectionRef = collection(db, collectionKeyName);
+  const q = query(collectionRef);
+  const querySnapshot = await getDocs(q);
+
+  const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
+    const { items, title } = docSnapshot.data();
+
+    acc[title] = items;
+
+    return acc;
+  }, {});
+
+  return categoryMap;
+};
+
 // end firestore block ---
 
 // start user auth block ---

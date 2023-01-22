@@ -66,7 +66,7 @@ export const CartContextProvider = ({ children }) => {
       0
     );
     setCartTotalPrice(totalPrice);
-  }, [cartItems, cartTotalCount]);
+  }, [cartItems]);
 
   const setIsCartDropdownOpen = () => {
     setIsCartOpen((prevIsCartOpenStatus) => !prevIsCartOpenStatus);

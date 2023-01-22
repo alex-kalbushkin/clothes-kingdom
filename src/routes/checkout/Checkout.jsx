@@ -20,7 +20,7 @@ export default function Checkout() {
         <CheckoutItem key={cartItem.id} cartItem={cartItem} />
       ))}
 
-      <div className={styles.checkoutTotal}>{`Total: ${cartTotalPrice}`}</div>
+      <div className={styles.checkoutTotal}>{`Total: $${cartTotalPrice}`}</div>
     </div>
   );
 }
