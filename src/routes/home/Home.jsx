@@ -1,8 +1,8 @@
-import Categories from "../../components/categories";
+import Directory from "../../components/directory";
 import { clothesCategories } from "../../mocks/categories";
 
 function Home() {
-  return <Categories clothesCategories={clothesCategories} />;
+  return <Directory clothesCategories={clothesCategories} />;
 }
 
 export default Home;
