@@ -1,23 +1,24 @@
-import styles from "./form-input.styles.module.scss";
+import { Input, FormInputContainer, FormInputLabel } from "./form-input.styles";
 
 function FormInput({ label, ...otherProps }) {
   return (
-    <div className={styles.formInputContainer}>
-      <input
-        className={styles.formInput}
+    <FormInputContainer>
+      <Input
+        // className={styles.formInput}
         autoComplete="new-password"
         {...otherProps}
       />
       {label && (
-        <label
-          className={`${otherProps.value.length ? styles.shrink : ""} ${
-            styles.formInputLabel
-          }`}
+        <FormInputLabel
+          shrink={otherProps.value.length}
+          // className={`${otherProps.value.length ? styles.shrink : ""} ${
+          //   styles.formInputLabel
+          // }`}
         >
           {label}
-        </label>
+        </FormInputLabel>
       )}
-    </div>
+    </FormInputContainer>
   );
 }
 
