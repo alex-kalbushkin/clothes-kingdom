@@ -1,27 +1,21 @@
 import { SHOP_NOW_TITLE } from "../../constants/constants";
-import {
-  DirectoryItemBackground,
-  DirectoryItemBodyContainer,
-  DirectoryItemContainer,
-  DirectoryItemTitle,
-  ShopNowMessage,
-} from "./directory-item.styles";
+import styles from "./directory-item.styles.module.scss";
 
 const DirectoryItem = ({ category }) => {
   const { title, imageUrl } = category;
 
   return (
-    <DirectoryItemContainer>
-      <DirectoryItemBackground
-        imageUrl={imageUrl}
-        // style={{ backgroundImage: `url(${imageUrl})` }}
+    <div className={styles.directoryItemContainer}>
+      <div
+        className={styles.directoryItemBackground}
+        style={{ backgroundImage: `url(${imageUrl})` }}
       />
 
-      <DirectoryItemBodyContainer>
-        <DirectoryItemTitle>{title}</DirectoryItemTitle>
-        <ShopNowMessage>{SHOP_NOW_TITLE}</ShopNowMessage>
-      </DirectoryItemBodyContainer>
-    </DirectoryItemContainer>
+      <div className={styles.directoryItemBodyContainer}>
+        <div className={styles.directoryItemTitle}>{title}</div>
+        <div className={styles.shopNowMessage}>{SHOP_NOW_TITLE}</div>
+      </div>
+    </div>
   );
 };
 

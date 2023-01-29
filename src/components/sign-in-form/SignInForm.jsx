@@ -3,7 +3,7 @@ import {
   signInUserWithEmailAndPassword,
   signInWithGooglePopup,
 } from "../../utils/firebase";
-import { Button, BUTTON_CLASSES } from "../button";
+import { Button } from "../button";
 import FormInput from "../form-input";
 import styles from "./sign-in-form.styles.module.scss";
 
@@ -79,7 +79,7 @@ function SignInForm() {
           <Button type="submit">Sign in</Button>
           <Button
             type="button"
-            buttonType={BUTTON_CLASSES.google}
+            buttonType="google"
             onClick={handleSignInWithGoogle}
           >
             Sign in with google
