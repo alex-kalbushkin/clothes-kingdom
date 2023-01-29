@@ -22,26 +22,3 @@ export const ItemCounter = styled.span`
   font-weight: bold;
   font-size: 12px;
 `;
-
-// --- scss ---
-// .cartIconContainer {
-//   width: 45px;
-//   height: 45px;
-//   position: relative;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   cursor: pointer;
-
-//   .shoppingIcon {
-//     width: 24px;
-//     height: 24px;
-//   }
-
-//   .itemCounter {
-//     position: absolute;
-//     top: 18px;
-//     font-weight: bold;
-//     font-size: 12px;
-//   }
-// }
