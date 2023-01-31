@@ -6,16 +6,22 @@ import styles from "./category.styles.module.scss";
 
 export default function Category() {
   const { category } = useParams();
+
   const { categoriesMap } = useContext(CategoriesContext);
+
+  const categoryTitle = useMemo(() => {
+    return category ? category[0].toUpperCase() + category.slice(1) : "";
+  }, [category]);
+
   const products = useMemo(() => {
-    const currentCategoryProducts = categoriesMap[category];
+    const currentCategoryProducts = categoriesMap[categoryTitle];
     return currentCategoryProducts || [];
-  }, [category, categoriesMap]);
+  }, [categoryTitle, categoriesMap]);
 
   return (
     <div className={styles.categoryContainer}>
       <div className={styles.categoryTitleContainer}>
-        <span className={styles.categoryTitle}>{category.toUpperCase()}</span>
+        <span className={styles.categoryTitle}>{category}</span>
       </div>
       <div className={styles.categoryProductsContainer}>
         {products &&

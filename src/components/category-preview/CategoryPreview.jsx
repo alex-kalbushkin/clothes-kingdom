@@ -6,8 +6,8 @@ export default function CategoryPreview({ title, products }) {
   return (
     <div className={styles.categoryPreviewContainer}>
       <div className={styles.titleLinkContainer}>
-        <Link className={styles.title} to={title}>
-          {title.toUpperCase()}
+        <Link className={styles.title} to={title.toLowerCase()}>
+          {title}
         </Link>
       </div>
 

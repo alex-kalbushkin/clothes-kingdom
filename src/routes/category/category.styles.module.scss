@@ -1,8 +1,12 @@
 .categoryContainer {
+  text-align: center;
+
   .categoryTitleContainer {
     margin-bottom: 25px;
+
     .categoryTitle {
       font-size: 28px;
+      text-transform: uppercase;
     }
   }
 
