@@ -1,5 +1,4 @@
-import { useEffect } from "react";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useReducer } from "react";
 
 export const CartContext = createContext({
   isCartOpen: false,
@@ -45,11 +44,75 @@ const deleteCartItem = (cartItems, cartItem) => {
   return currentCartItems;
 };
 
+const INITIAL_CART_STATE = {
+  isCartOpen: false,
+  cartItems: [],
+  cartTotalCount: 0,
+  cartTotalPrice: 0,
+};
+
+const CART_ACTION_TYPES = {
+  SET_IS_CART_OPEN: "SET_IS_CART_OPEN",
+  SET_CART_ITEMS: "SET_CART_ITEMS",
+  SET_CART_TOTAL_COUNT: "SET_CART_TOTAL_COUNT",
+  SET_CART_TOTAL_PRICE: "SET_CART_TOTAL_PRICE",
+};
+
+const cartReducer = (state, action) => {
+  const { type, payload } = action;
+
+  switch (type) {
+    case CART_ACTION_TYPES.SET_IS_CART_OPEN:
+      return {
+        ...state,
+        isCartOpen: !state.isCartOpen,
+      };
+
+    case CART_ACTION_TYPES.SET_CART_ITEMS:
+      return {
+        ...state,
+        cartItems: payload,
+      };
+
+    case CART_ACTION_TYPES.SET_CART_TOTAL_COUNT:
+      return {
+        ...state,
+        cartTotalCount: payload,
+      };
+
+    case CART_ACTION_TYPES.SET_CART_TOTAL_PRICE:
+      return {
+        ...state,
+        cartTotalPrice: payload,
+      };
+
+    default:
+      return state;
+  }
+};
+
 export const CartContextProvider = ({ children }) => {
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
-  const [cartTotalCount, setCartTotalCount] = useState(0);
-  const [cartTotalPrice, setCartTotalPrice] = useState(0);
+  const [{ isCartOpen, cartItems, cartTotalCount, cartTotalPrice }, dispatch] =
+    useReducer(cartReducer, INITIAL_CART_STATE);
+
+  const setIsCartOpen = () => {
+    dispatch({ type: CART_ACTION_TYPES.SET_IS_CART_OPEN });
+  };
+  const setCartItems = (cartItems) => {
+    dispatch({ type: CART_ACTION_TYPES.SET_CART_ITEMS, payload: cartItems });
+  };
+  const setCartTotalCount = (totalCount) => {
+    dispatch({
+      type: CART_ACTION_TYPES.SET_CART_TOTAL_COUNT,
+      payload: totalCount,
+    });
+  };
+  const setCartTotalPrice = (totalPrice) => {
+    dispatch({
+      type: CART_ACTION_TYPES.SET_CART_TOTAL_PRICE,
+      payload: totalPrice,
+    });
+  };
 
   useEffect(() => {
     const totalCount = cartItems.reduce(
@@ -69,7 +132,7 @@ export const CartContextProvider = ({ children }) => {
   }, [cartItems]);
 
   const setIsCartDropdownOpen = () => {
-    setIsCartOpen((prevIsCartOpenStatus) => !prevIsCartOpenStatus);
+    setIsCartOpen();
   };
 
   const addItemToCart = (product) => {
@@ -84,13 +147,13 @@ export const CartContextProvider = ({ children }) => {
 
   const cartContextValue = {
     isCartOpen,
-    setIsCartDropdownOpen,
     cartItems,
     cartTotalCount,
     cartTotalPrice,
     addItemToCart,
-    removeItemFromCart,
     clearItemFromCart,
+    removeItemFromCart,
+    setIsCartDropdownOpen,
   };
 
   return (
