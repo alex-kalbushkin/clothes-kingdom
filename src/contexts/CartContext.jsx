@@ -1,11 +1,12 @@
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useReducer } from "react";
+import { reducerActionCreator } from "../utils/reducer";
 
 export const CartContext = createContext({
   isCartOpen: false,
-  setIsCartDropdownOpen: () => {},
   cartItems: [],
   cartTotalCount: 0,
   cartTotalPrice: 0,
+  setIsCartDropdownOpen: () => {},
   addItemToCart: () => {},
   removeItemFromCart: () => {},
   clearItemFromCart: () => {},
@@ -44,7 +45,7 @@ const deleteCartItem = (cartItems, cartItem) => {
   return currentCartItems;
 };
 
-const INITIAL_CART_STATE = {
+const INITIAL_STATE = {
   isCartOpen: false,
   cartItems: [],
   cartTotalCount: 0,
@@ -52,10 +53,8 @@ const INITIAL_CART_STATE = {
 };
 
 const CART_ACTION_TYPES = {
-  SET_IS_CART_OPEN: "SET_IS_CART_OPEN",
   SET_CART_ITEMS: "SET_CART_ITEMS",
-  SET_CART_TOTAL_COUNT: "SET_CART_TOTAL_COUNT",
-  SET_CART_TOTAL_PRICE: "SET_CART_TOTAL_PRICE",
+  SET_IS_CART_OPEN: "SET_IS_CART_OPEN",
 };
 
 const cartReducer = (state, action) => {
@@ -67,25 +66,11 @@ const cartReducer = (state, action) => {
         ...state,
         isCartOpen: !state.isCartOpen,
       };
-
     case CART_ACTION_TYPES.SET_CART_ITEMS:
       return {
         ...state,
-        cartItems: payload,
+        ...payload,
       };
-
-    case CART_ACTION_TYPES.SET_CART_TOTAL_COUNT:
-      return {
-        ...state,
-        cartTotalCount: payload,
-      };
-
-    case CART_ACTION_TYPES.SET_CART_TOTAL_PRICE:
-      return {
-        ...state,
-        cartTotalPrice: payload,
-      };
-
     default:
       return state;
   }
@@ -93,56 +78,43 @@ const cartReducer = (state, action) => {
 
 export const CartContextProvider = ({ children }) => {
   const [{ isCartOpen, cartItems, cartTotalCount, cartTotalPrice }, dispatch] =
-    useReducer(cartReducer, INITIAL_CART_STATE);
+    useReducer(cartReducer, INITIAL_STATE);
 
-  const setIsCartOpen = () => {
-    dispatch({ type: CART_ACTION_TYPES.SET_IS_CART_OPEN });
-  };
-  const setCartItems = (cartItems) => {
-    dispatch({ type: CART_ACTION_TYPES.SET_CART_ITEMS, payload: cartItems });
-  };
-  const setCartTotalCount = (totalCount) => {
-    dispatch({
-      type: CART_ACTION_TYPES.SET_CART_TOTAL_COUNT,
-      payload: totalCount,
-    });
-  };
-  const setCartTotalPrice = (totalPrice) => {
-    dispatch({
-      type: CART_ACTION_TYPES.SET_CART_TOTAL_PRICE,
-      payload: totalPrice,
-    });
-  };
-
-  useEffect(() => {
-    const totalCount = cartItems.reduce(
+  const updateCartItemsReducer = (newCartItems) => {
+    const cartTotalCount = newCartItems.reduce(
       (total, currentItem) => total + currentItem.quantity,
       0
     );
-    setCartTotalCount(totalCount);
-  }, [cartItems]);
-
-  useEffect(() => {
-    const totalPrice = cartItems.reduce(
+    const cartTotalPrice = newCartItems.reduce(
       (total, currentItem) =>
         (total += currentItem.price * currentItem.quantity),
       0
     );
-    setCartTotalPrice(totalPrice);
-  }, [cartItems]);
+
+    dispatch(
+      reducerActionCreator(CART_ACTION_TYPES.SET_CART_ITEMS, {
+        cartItems: newCartItems,
+        cartTotalCount,
+        cartTotalPrice,
+      })
+    );
+  };
 
   const setIsCartDropdownOpen = () => {
-    setIsCartOpen();
+    dispatch(reducerActionCreator(CART_ACTION_TYPES.SET_IS_CART_OPEN));
   };
 
   const addItemToCart = (product) => {
-    setCartItems(addOrRemoveCartItem(cartItems, product, true));
+    const newCartItems = addOrRemoveCartItem(cartItems, product, true);
+    updateCartItemsReducer(newCartItems);
   };
   const removeItemFromCart = (cartItem) => {
-    setCartItems(addOrRemoveCartItem(cartItems, cartItem, false));
+    const newCartItems = addOrRemoveCartItem(cartItems, cartItem, false);
+    updateCartItemsReducer(newCartItems);
   };
   const clearItemFromCart = (cartItem) => {
-    setCartItems(deleteCartItem(cartItems, cartItem));
+    const newCartItems = deleteCartItem(cartItems, cartItem);
+    updateCartItemsReducer(newCartItems);
   };
 
   const cartContextValue = {
