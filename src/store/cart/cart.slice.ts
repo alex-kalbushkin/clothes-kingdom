@@ -25,11 +25,8 @@ export const cartSlice = createSlice({
         action.payload,
         true
       );
-      const updatedCartItemsData = updateCartItems(newCartItems);
 
-      state.cartItems = updatedCartItemsData.cartItems;
-      state.cartTotalCount = updatedCartItemsData.cartTotalCount;
-      state.cartTotalPrice = updatedCartItemsData.cartTotalPrice;
+      Object.assign(state, updateCartItems(newCartItems));
     },
     removeItemFromCart: (state, action: PayloadAction<any>) => {
       const newCartItems = addOrRemoveCartItem(
@@ -37,19 +34,13 @@ export const cartSlice = createSlice({
         action.payload,
         false
       );
-      const updatedCartItemsData = updateCartItems(newCartItems);
 
-      state.cartItems = updatedCartItemsData.cartItems;
-      state.cartTotalCount = updatedCartItemsData.cartTotalCount;
-      state.cartTotalPrice = updatedCartItemsData.cartTotalPrice;
+      Object.assign(state, updateCartItems(newCartItems));
     },
     clearItemFromCart: (state, action: PayloadAction<any>) => {
       const newCartItems = deleteCartItem(state.cartItems, action.payload);
-      const updatedCartItemsData = updateCartItems(newCartItems);
 
-      state.cartItems = updatedCartItemsData.cartItems;
-      state.cartTotalCount = updatedCartItemsData.cartTotalCount;
-      state.cartTotalPrice = updatedCartItemsData.cartTotalPrice;
+      Object.assign(state, updateCartItems(newCartItems));
     },
   },
 });
