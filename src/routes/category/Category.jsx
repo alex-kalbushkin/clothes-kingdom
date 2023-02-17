@@ -1,16 +1,16 @@
-import { useContext, useMemo } from "react";
-import { useParams } from "react-router-dom";
-import ProductCard from "../../components/product-card";
-import { CategoriesContext } from "../../contexts/CategoriesContext";
-import styles from "./category.styles.module.scss";
+import { useMemo } from 'react';
+import { useParams } from 'react-router-dom';
+import ProductCard from '../../components/product-card';
+import { useCategoriesState } from '../../store/categories';
+import styles from './category.styles.module.scss';
 
 export default function Category() {
   const { category } = useParams();
 
-  const { categoriesMap } = useContext(CategoriesContext);
+  const { categoriesMap } = useCategoriesState();
 
   const categoryTitle = useMemo(() => {
-    return category ? category[0].toUpperCase() + category.slice(1) : "";
+    return category ? category[0].toUpperCase() + category.slice(1) : '';
   }, [category]);
 
   const products = useMemo(() => {

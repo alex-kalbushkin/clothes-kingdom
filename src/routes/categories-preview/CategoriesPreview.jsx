@@ -1,9 +1,9 @@
-import { useContext } from "react";
-import CategoryPreview from "../../components/category-preview";
-import { CategoriesContext } from "../../contexts/CategoriesContext";
+import CategoryPreview from '../../components/category-preview';
+import { useCategoriesState } from '../../store/categories';
 
 export default function CategoriesPreview() {
-  const { categoriesMap } = useContext(CategoriesContext);
+  const { categoriesMap } = useCategoriesState();
+
   return (
     <>
       {Object.keys(categoriesMap).map((title) => {

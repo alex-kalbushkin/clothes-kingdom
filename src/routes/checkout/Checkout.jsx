@@ -1,10 +1,9 @@
-import { useContext } from "react";
-import CheckoutItem from "../../components/checkout-item";
-import { CartContext } from "../../contexts/CartContext";
-import styles from "./checkout.styles.module.scss";
+import CheckoutItem from '../../components/checkout-item';
+import { useCartState } from '../../store/cart';
+import styles from './checkout.styles.module.scss';
 
 export default function Checkout() {
-  const { cartItems, cartTotalPrice } = useContext(CartContext);
+  const { cartItems, cartTotalPrice } = useCartState();
 
   return (
     <div className={styles.checkoutContainer}>
