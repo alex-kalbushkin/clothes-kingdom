@@ -1,3 +1,9 @@
+import { createSelector } from 'reselect';
 import { useAppSelector } from '../../hooks';
+import { RootState } from '../../store';
 
-export const useCartState = () => useAppSelector((state) => state.cart);
+const selectCartReducer = (state: RootState) => state.cart;
+
+const selectCart = createSelector([selectCartReducer], (cart) => cart);
+
+export const useCartState = () => useAppSelector(selectCart);

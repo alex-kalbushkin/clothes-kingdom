@@ -1,13 +1,13 @@
 import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import ProductCard from '../../components/product-card';
-import { useCategoriesState } from '../../store/categories';
+import { useCategoriesMapState } from '../../store/categories';
 import styles from './category.styles.module.scss';
 
 export default function Category() {
   const { category } = useParams();
 
-  const { categoriesMap } = useCategoriesState();
+  const categoriesMap = useCategoriesMapState();
 
   const categoryTitle = useMemo(() => {
     return category ? category[0].toUpperCase() + category.slice(1) : '';

@@ -1,4 +1,4 @@
-import { initializeApp } from "firebase/app";
+import { initializeApp } from 'firebase/app';
 import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
@@ -7,7 +7,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
-} from "firebase/auth";
+} from 'firebase/auth';
 import {
   collection,
   doc,
@@ -17,23 +17,23 @@ import {
   query,
   setDoc,
   writeBatch,
-} from "firebase/firestore";
+} from 'firebase/firestore';
 
 // start firebase config block ---
 const firebaseConfig = {
-  apiKey: "AIzaSyAYbGTmhpkyWF616diJAaR_uxgOmOReB6I",
-  authDomain: "clothes-kingdom-97e02.firebaseapp.com",
-  projectId: "clothes-kingdom-97e02",
-  storageBucket: "clothes-kingdom-97e02.appspot.com",
-  messagingSenderId: "1008830544001",
-  appId: "1:1008830544001:web:3d5b2eb0c9e35d8cbc3580",
+  apiKey: 'AIzaSyAYbGTmhpkyWF616diJAaR_uxgOmOReB6I',
+  authDomain: 'clothes-kingdom-97e02.firebaseapp.com',
+  projectId: 'clothes-kingdom-97e02',
+  storageBucket: 'clothes-kingdom-97e02.appspot.com',
+  messagingSenderId: '1008830544001',
+  appId: '1:1008830544001:web:3d5b2eb0c9e35d8cbc3580',
 };
 
 const fireBaseApp = initializeApp(firebaseConfig);
 
 const provider = new GoogleAuthProvider();
 provider.setCustomParameters({
-  prompt: "select_account",
+  prompt: 'select_account',
 });
 
 export const auth = getAuth();
@@ -47,7 +47,7 @@ export const createUserDocFromAuth = async (userAuth, additionalInfo = {}) => {
     return;
   }
 
-  const userDocRef = doc(db, "users", userAuth.uid);
+  const userDocRef = doc(db, 'users', userAuth.uid);
 
   const userSnapshot = await getDoc(userDocRef);
 
@@ -63,7 +63,7 @@ export const createUserDocFromAuth = async (userAuth, additionalInfo = {}) => {
         ...additionalInfo,
       });
     } catch (error) {
-      console.log("error: ", error);
+      console.log('error: ', error);
     }
   }
 
@@ -74,7 +74,7 @@ export const addCollectionAndDocs = async (collectionKeyName, objectsToAdd) => {
   const batch = writeBatch(db);
   const collectionRef = collection(db, collectionKeyName);
 
-  console.log("objectsToAdd: ", objectsToAdd);
+  console.log('objectsToAdd: ', objectsToAdd);
 
   objectsToAdd.forEach((object) => {
     const docRef = doc(collectionRef, object.title.toLowerCase());
@@ -82,7 +82,7 @@ export const addCollectionAndDocs = async (collectionKeyName, objectsToAdd) => {
   });
 
   await batch.commit();
-  console.log("Batch done!");
+  console.log('Batch done!');
 };
 
 export const getCollectionAndDocs = async (collectionKeyName) => {
@@ -90,15 +90,9 @@ export const getCollectionAndDocs = async (collectionKeyName) => {
   const q = query(collectionRef);
   const querySnapshot = await getDocs(q);
 
-  const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
-    const { items, title } = docSnapshot.data();
-
-    acc[title] = items;
-
-    return acc;
-  }, {});
-
-  return categoryMap;
+  return querySnapshot.docs.map((categoryDocSnapshot) =>
+    categoryDocSnapshot.data()
+  );
 };
 
 // end firestore block ---

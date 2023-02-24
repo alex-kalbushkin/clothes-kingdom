@@ -6,7 +6,7 @@ import CategoriesPreview from '../categories-preview';
 import Category from '../category';
 
 function Shop() {
-  const { setCategoriesMap } = useCategoriesActions();
+  const { setCategories } = useCategoriesActions();
 
   useEffect(() => {
     // run only for firebase data add(shop data)
@@ -15,16 +15,16 @@ function Shop() {
     // };
     // addDataToFirestore();
 
-    const getCategoriesMap = async () => {
+    const getCategories = async () => {
       const categories = await getCollectionAndDocs('categories');
 
       if (categories) {
-        setCategoriesMap(categories);
+        setCategories(categories);
       }
     };
 
-    getCategoriesMap();
-  }, [setCategoriesMap]);
+    getCategories();
+  }, [setCategories]);
 
   return (
     <Routes>

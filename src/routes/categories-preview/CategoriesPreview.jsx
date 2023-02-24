@@ -1,8 +1,8 @@
 import CategoryPreview from '../../components/category-preview';
-import { useCategoriesState } from '../../store/categories';
+import { useCategoriesMapState } from '../../store/categories';
 
 export default function CategoriesPreview() {
-  const { categoriesMap } = useCategoriesState();
+  const categoriesMap = useCategoriesMapState();
 
   return (
     <>

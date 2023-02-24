@@ -3,12 +3,12 @@ import { ReactComponent as Logo } from '../../assets/crown.svg';
 import CartDropdown from '../../components/cart-dropdown';
 import CartIcon from '../../components/cart-icon';
 import { useCartState } from '../../store/cart';
-import { useUserState } from '../../store/user';
+import { useCurrentUserState } from '../../store/user';
 import { signOutUser } from '../../utils/firebase';
 import styles from './navigation.styles.module.scss';
 
 function Navigation() {
-  const { currentUser } = useUserState();
+  const currentUser = useCurrentUserState();
 
   const { isCartOpen } = useCartState();
 

@@ -1,5 +1,4 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { logger } from 'redux-logger';
 import { cartReducer } from './cart';
 import { categoriesReducer } from './categories';
 import { userReducer } from './user';
@@ -10,7 +9,21 @@ const rootReducer = combineReducers({
   cart: cartReducer,
 });
 
-const middleWares = [logger];
+const customReduxLogger = (store) => (next) => (action) => {
+  if (!action.type) {
+    return next(action);
+  }
+
+  console.log('currentState: ', store.getState());
+  console.log('action: ', action);
+
+  next(action);
+
+  console.log('nextState: ', store.getState());
+  console.log('---------------');
+};
+
+const middleWares = [customReduxLogger];
 
 export const store = configureStore({
   reducer: rootReducer,
