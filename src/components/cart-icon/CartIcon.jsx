@@ -1,10 +1,10 @@
 import { ReactComponent as ShoppingSvg } from '../../assets/shopping-bag.svg';
 import styles from './cart-icon.styles.module.scss';
-import { useCartActions, useCartState } from '../../store/cart';
+import { useCartActions, useCartTotalCountState } from '../../store/cart';
 
 function CartIcon() {
   const { setIsCartOpen } = useCartActions();
-  const { cartTotalCount } = useCartState();
+  const cartTotalCount = useCartTotalCountState();
 
   return (
     <div className={styles.cartIconContainer} onClick={setIsCartOpen}>

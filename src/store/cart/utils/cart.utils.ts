@@ -30,20 +30,3 @@ export const deleteCartItem = (cartItems, cartItem) => {
 
   return currentCartItems;
 };
-
-export const updateCartItems = (newCartItems) => {
-  const cartTotalCount = newCartItems.reduce(
-    (total, currentItem) => total + currentItem.quantity,
-    0
-  );
-  const cartTotalPrice = newCartItems.reduce(
-    (total, currentItem) => (total += currentItem.price * currentItem.quantity),
-    0
-  );
-
-  return {
-    cartItems: newCartItems,
-    cartTotalCount,
-    cartTotalPrice,
-  };
-};

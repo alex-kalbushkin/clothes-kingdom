@@ -1,9 +1,10 @@
 import CheckoutItem from '../../components/checkout-item';
-import { useCartState } from '../../store/cart';
+import { useCartItemsState, useCartTotalPriceState } from '../../store/cart';
 import styles from './checkout.styles.module.scss';
 
 export default function Checkout() {
-  const { cartItems, cartTotalPrice } = useCartState();
+  const cartItems = useCartItemsState();
+  const cartTotalPrice = useCartTotalPriceState();
 
   return (
     <div className={styles.checkoutContainer}>

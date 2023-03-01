@@ -2,13 +2,14 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '../button';
 import CartItem from '../cart-item';
 import styles from './cart-dropdown.styles.module.scss';
-import { useCartActions, useCartState } from '../../store/cart';
+import { useCartActions, useCartItemsState } from '../../store/cart';
 
 function CartDropdown() {
   const navigate = useNavigate();
 
   const { setIsCartOpen } = useCartActions();
-  const { cartItems } = useCartState();
+
+  const cartItems = useCartItemsState();
 
   const goToCheckoutHandler = () => {
     setIsCartOpen();

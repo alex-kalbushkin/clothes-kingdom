@@ -1,15 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {
-  addOrRemoveCartItem,
-  deleteCartItem,
-  updateCartItems,
-} from './utils/cart.utils';
+import { addOrRemoveCartItem, deleteCartItem } from './utils/cart.utils';
 
 const INITIAL_STATE = {
   isCartOpen: false,
   cartItems: [],
-  cartTotalCount: 0,
-  cartTotalPrice: 0,
 };
 
 export const cartSlice = createSlice({
@@ -26,7 +20,7 @@ export const cartSlice = createSlice({
         true
       );
 
-      Object.assign(state, updateCartItems(newCartItems));
+      state.cartItems = newCartItems;
     },
     removeItemFromCart: (state, action: PayloadAction<any>) => {
       const newCartItems = addOrRemoveCartItem(
@@ -35,12 +29,12 @@ export const cartSlice = createSlice({
         false
       );
 
-      Object.assign(state, updateCartItems(newCartItems));
+      state.cartItems = newCartItems;
     },
     clearItemFromCart: (state, action: PayloadAction<any>) => {
       const newCartItems = deleteCartItem(state.cartItems, action.payload);
 
-      Object.assign(state, updateCartItems(newCartItems));
+      state.cartItems = newCartItems;
     },
   },
 });
