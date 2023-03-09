@@ -1,12 +1,11 @@
 import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useCategoriesActions } from '../../store/categories';
-import { getCollectionAndDocs } from '../../utils/firebase';
 import CategoriesPreview from '../categories-preview';
 import Category from '../category';
 
 function Shop() {
-  const { setCategories } = useCategoriesActions();
+  const { fetchCategories } = useCategoriesActions();
 
   useEffect(() => {
     // run only for firebase data add(shop data)
@@ -15,16 +14,8 @@ function Shop() {
     // };
     // addDataToFirestore();
 
-    const getCategories = async () => {
-      const categories = await getCollectionAndDocs('categories');
-
-      if (categories) {
-        setCategories(categories);
-      }
-    };
-
-    getCategories();
-  }, [setCategories]);
+    fetchCategories();
+  }, [fetchCategories]);
 
   return (
     <Routes>

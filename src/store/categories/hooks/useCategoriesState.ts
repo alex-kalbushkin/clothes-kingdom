@@ -16,5 +16,17 @@ const selectCategoriesMap = createSelector([selectCategories], (categories) =>
     return acc;
   }, {})
 );
-
 export const useCategoriesMapState = () => useAppSelector(selectCategoriesMap);
+
+const selectCategoriesLoading = createSelector(
+  [selectCategoriesReducer],
+  (categoriesSlice) => categoriesSlice.isLoading
+);
+export const useCategoriesLoading = () =>
+  useAppSelector(selectCategoriesLoading);
+
+const selectCategoriesError = createSelector(
+  [selectCategoriesReducer],
+  (categoriesSlice) => categoriesSlice.errorMessage
+);
+export const useCategoriesError = () => useAppSelector(selectCategoriesError);

@@ -1,22 +1,31 @@
 import CategoryPreview from '../../components/category-preview';
-import { useCategoriesMapState } from '../../store/categories';
+import Spinner from '../../components/spinner';
+import {
+  useCategoriesLoading,
+  useCategoriesMapState,
+} from '../../store/categories';
 
 export default function CategoriesPreview() {
   const categoriesMap = useCategoriesMapState();
+  const isCategoriesLoading = useCategoriesLoading();
 
   return (
     <>
-      {Object.keys(categoriesMap).map((title) => {
-        const products = categoriesMap[title];
+      {isCategoriesLoading ? (
+        <Spinner />
+      ) : (
+        Object.keys(categoriesMap).map((title) => {
+          const products = categoriesMap[title];
 
-        return (
-          <CategoryPreview
-            key={title}
-            products={products || []}
-            title={title}
-          />
-        );
-      })}
+          return (
+            <CategoryPreview
+              key={title}
+              products={products || []}
+              title={title}
+            />
+          );
+        })
+      )}
     </>
   );
 }

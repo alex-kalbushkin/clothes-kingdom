@@ -1,13 +1,19 @@
 import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
+
 import ProductCard from '../../components/product-card';
-import { useCategoriesMapState } from '../../store/categories';
+import Spinner from '../../components/spinner';
+import {
+  useCategoriesLoading,
+  useCategoriesMapState,
+} from '../../store/categories';
 import styles from './category.styles.module.scss';
 
 export default function Category() {
   const { category } = useParams();
 
   const categoriesMap = useCategoriesMapState();
+  const isCategoriesLoading = useCategoriesLoading();
 
   const categoryTitle = useMemo(() => {
     return category ? category[0].toUpperCase() + category.slice(1) : '';
@@ -18,7 +24,9 @@ export default function Category() {
     return currentCategoryProducts || [];
   }, [categoryTitle, categoriesMap]);
 
-  return (
+  return isCategoriesLoading ? (
+    <Spinner />
+  ) : (
     <div className={styles.categoryContainer}>
       <div className={styles.categoryTitleContainer}>
         <span className={styles.categoryTitle}>{category}</span>

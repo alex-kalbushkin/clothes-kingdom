@@ -18,6 +18,7 @@ import {
   setDoc,
   writeBatch,
 } from 'firebase/firestore';
+import { ICategory } from '../../store/categories/types';
 
 // start firebase config block ---
 const firebaseConfig = {
@@ -92,7 +93,7 @@ export const getCollectionAndDocs = async (collectionKeyName) => {
 
   return querySnapshot.docs.map((categoryDocSnapshot) =>
     categoryDocSnapshot.data()
-  );
+  ) as ICategory[];
 };
 
 // end firestore block ---

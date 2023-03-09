@@ -1,9 +1,9 @@
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { useAppDispatch } from '../../hooks';
-import { categoriesActions } from '../categories.slice';
+import { fetchCategories } from '../categories.actions';
 
 export const useCategoriesActions = () => {
-  const allCategoriesActions = { ...categoriesActions };
+  const allCategoriesActions = { fetchCategories };
   const dispatch = useAppDispatch();
 
   return bindActionCreators(allCategoriesActions, dispatch);
