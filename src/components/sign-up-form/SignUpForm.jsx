@@ -1,20 +1,19 @@
-import { useCallback, useState } from "react";
-import {
-  createAuthUserWithEmailAndPassword,
-  createUserDocFromAuth,
-} from "../../utils/firebase";
-import { Button } from "../button";
-import FormInput from "../form-input";
-import styles from "./sign-up-form.styles.module.scss";
+import { useCallback, useState } from 'react';
+import { useUserActions } from '../../store/user';
+import { Button } from '../button';
+import FormInput from '../form-input';
+import styles from './sign-up-form.styles.module.scss';
 
 const initialFormFieldsState = {
-  displayName: "",
-  email: "",
-  password: "",
-  confirmPassword: "",
+  displayName: '',
+  email: '',
+  password: '',
+  confirmPassword: '',
 };
 
 const SignUpForm = () => {
+  const { signUpStart } = useUserActions();
+
   const [formFields, setFormFields] = useState(initialFormFieldsState);
   const { displayName, email, password, confirmPassword } = formFields;
 
@@ -28,33 +27,24 @@ const SignUpForm = () => {
     setFormFields(initialFormFieldsState);
   }, []);
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
 
     if (password !== confirmPassword) {
-      alert("passwords do not match");
+      alert('passwords do not match');
       return;
     }
 
     try {
-      const { user } = await createAuthUserWithEmailAndPassword(
-        email,
-        password
-      );
-
-      if (user) {
-        await createUserDocFromAuth(user, {
-          displayName,
-        });
-      }
+      signUpStart(email, password, displayName);
 
       resetFormFields();
     } catch (error) {
-      console.log("error: ", error);
-      if (error.code === "auth/email-already-in-use") {
-        alert("User already exists");
+      console.log('error: ', error);
+      if (error.code === 'auth/email-already-in-use') {
+        alert('User already exists');
       } else {
-        console.log("user creation encountered an error: ", error);
+        console.log('user creation encountered an error: ', error);
       }
     }
   };

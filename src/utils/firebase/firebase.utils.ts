@@ -68,14 +68,12 @@ export const createUserDocFromAuth = async (userAuth, additionalInfo = {}) => {
     }
   }
 
-  return userDocRef;
+  return userSnapshot;
 };
 
 export const addCollectionAndDocs = async (collectionKeyName, objectsToAdd) => {
   const batch = writeBatch(db);
   const collectionRef = collection(db, collectionKeyName);
-
-  console.log('objectsToAdd: ', objectsToAdd);
 
   objectsToAdd.forEach((object) => {
     const docRef = doc(collectionRef, object.title.toLowerCase());
@@ -102,7 +100,10 @@ export const getCollectionAndDocs = async (collectionKeyName) => {
 export const signInWithGooglePopup = async () =>
   await signInWithPopup(auth, provider);
 
-export const createAuthUserWithEmailAndPassword = async (email, password) => {
+export const createAuthUserWithEmailAndPassword = async (
+  email: string,
+  password: string
+) => {
   if (!email || !password) {
     return;
   }
@@ -110,7 +111,10 @@ export const createAuthUserWithEmailAndPassword = async (email, password) => {
   return await createUserWithEmailAndPassword(auth, email, password);
 };
 
-export const signInUserWithEmailAndPassword = async (email, password) => {
+export const signInUserWithEmailAndPassword = async (
+  email: string,
+  password: string
+) => {
   if (!email || !password) {
     return;
   }
@@ -120,6 +124,16 @@ export const signInUserWithEmailAndPassword = async (email, password) => {
 
 export const signOutUser = async () => await signOut(auth);
 
-export const onAuthStateChangedObserver = (callback) =>
-  onAuthStateChanged(auth, callback);
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (user) => {
+        unsubscribe();
+        resolve(user);
+      },
+      reject
+    );
+  });
+};
 // end user auth block ---

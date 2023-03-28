@@ -3,14 +3,14 @@ import { ReactComponent as Logo } from '../../assets/crown.svg';
 import CartDropdown from '../../components/cart-dropdown';
 import CartIcon from '../../components/cart-icon';
 import { useIsCartOpenState } from '../../store/cart';
-import { useCurrentUserState } from '../../store/user';
-import { signOutUser } from '../../utils/firebase';
+import { useCurrentUserState, useUserActions } from '../../store/user';
 import styles from './navigation.styles.module.scss';
 
 function Navigation() {
   const currentUser = useCurrentUserState();
-
   const isCartOpen = useIsCartOpenState();
+
+  const { signOutStart } = useUserActions();
 
   return (
     <>
@@ -24,7 +24,7 @@ function Navigation() {
           </Link>
 
           {currentUser ? (
-            <span className={styles.navLink} onClick={signOutUser}>
+            <span className={styles.navLink} onClick={signOutStart}>
               SIGN OUT
             </span>
           ) : (

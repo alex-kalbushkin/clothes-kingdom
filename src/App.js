@@ -6,25 +6,13 @@ import Shop from './routes/shop';
 import Authentication from './routes/authentication';
 import Checkout from './routes/checkout';
 import { useUserActions } from './store/user';
-import {
-  createUserDocFromAuth,
-  onAuthStateChangedObserver,
-} from './utils/firebase';
 
 function App() {
-  const { setCurrentUser } = useUserActions();
+  const { checkUserSession } = useUserActions();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChangedObserver(async (user) => {
-      if (user) {
-        await createUserDocFromAuth(user);
-      }
-
-      setCurrentUser(user);
-    });
-
-    return unsubscribe;
-  }, [setCurrentUser]);
+    checkUserSession();
+  }, [checkUserSession]);
 
   return (
     <Routes>

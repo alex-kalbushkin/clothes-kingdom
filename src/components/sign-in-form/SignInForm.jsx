@@ -1,18 +1,17 @@
-import { useCallback, useState } from "react";
-import {
-  signInUserWithEmailAndPassword,
-  signInWithGooglePopup,
-} from "../../utils/firebase";
-import { Button } from "../button";
-import FormInput from "../form-input";
-import styles from "./sign-in-form.styles.module.scss";
+import { useCallback, useState } from 'react';
+import { useUserActions } from '../../store/user';
+import { Button } from '../button';
+import FormInput from '../form-input';
+import styles from './sign-in-form.styles.module.scss';
 
 const initialFormFieldsState = {
-  email: "",
-  password: "",
+  email: '',
+  password: '',
 };
 
 function SignInForm() {
+  const { googleSignInStart, emailSignInStart } = useUserActions();
+
   const [formFields, setFormFields] = useState(initialFormFieldsState);
   const { email, password } = formFields;
 
@@ -20,24 +19,20 @@ function SignInForm() {
     setFormFields(initialFormFieldsState);
   }, []);
 
-  const handleSignInWithGoogle = async () => {
-    await signInWithGooglePopup();
-  };
-
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
 
     try {
-      await signInUserWithEmailAndPassword(email, password);
+      emailSignInStart(email, password);
 
       resetFormFields();
     } catch (error) {
       switch (error.code) {
-        case "auth/wrong-password":
-          alert("incorrect password for email");
+        case 'auth/wrong-password':
+          alert('incorrect password for email');
           break;
-        case "auth/user-not-found":
-          alert("no user associated with this email");
+        case 'auth/user-not-found':
+          alert('no user associated with this email');
           break;
         default:
           console.log(error);
@@ -77,11 +72,7 @@ function SignInForm() {
 
         <div className={styles.signInButtonsContainer}>
           <Button type="submit">Sign in</Button>
-          <Button
-            type="button"
-            buttonType="google"
-            onClick={handleSignInWithGoogle}
-          >
+          <Button type="button" buttonType="google" onClick={googleSignInStart}>
             Sign in with google
           </Button>
         </div>
