@@ -1,6 +1,6 @@
-import styles from "./button.styles.module.scss";
+import styles from './button.styles.module.scss';
 
-export const BUTTON_CLASSES = {
+const BUTTON_CLASSES = {
   google: styles.googleButton,
   inverted: styles.inverted,
 };

@@ -1,4 +1,5 @@
 import CheckoutItem from '../../components/checkout-item';
+import PaymentForm from '../../components/payment-form';
 import { useCartItemsState, useCartTotalPriceState } from '../../store/cart';
 import styles from './checkout.styles.module.scss';
 
@@ -21,6 +22,8 @@ export default function Checkout() {
       ))}
 
       <div className={styles.checkoutTotal}>{`Total: $${cartTotalPrice}`}</div>
+
+      <PaymentForm />
     </div>
   );
 }
