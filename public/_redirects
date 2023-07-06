@@ -1,3 +1,0 @@
-# for Netlify: redirect to index.html from any requests(/*) and then set 200 status
-
-/* /index.html 200
