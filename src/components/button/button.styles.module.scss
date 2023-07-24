@@ -46,4 +46,15 @@ $main-white-color: white;
       border: none;
     }
   }
+
+  &.buttonDisabled {
+    background-color: $main-white-color;
+    border: 1px solid $main-black-color;
+    cursor: initial;
+
+    &:hover {
+      background-color: $main-white-color;
+      border: 1px solid $main-black-color;
+    }
+  }
 }

@@ -1,8 +1,37 @@
-.paymentFormContainer {
+.paymentContainer {
   display: flex;
+  flex-direction: column;
+  max-height: 300px;
   height: 300px;
   align-items: center;
   justify-content: center;
+
+  .paymentStatusMessage {
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    opacity: 0;
+    padding: 5px;
+
+    &.errorMessage {
+      color: rgb(150, 48, 48);
+      background-color: rgba(175, 84, 84, 0.6);
+      opacity: 1;
+      transition: opacity 1s ease-in-out;
+    }
+
+    &.successMessage {
+      color: rgb(40, 116, 69);
+      background-color: rgba(93, 160, 110, 0.6);
+      opacity: 1;
+      transition: opacity 2s ease-in;
+    }
+  }
 
   .formContainer {
     height: 100px;

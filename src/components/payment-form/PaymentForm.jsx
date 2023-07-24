@@ -1,9 +1,24 @@
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 
+import { useEffect, useState } from 'react';
+
 import { Button } from '../button';
 import styles from './payment-form.styles.module.scss';
 
 const PaymentForm = () => {
+  const [isPaymentInProgress, setIsPaymentInProgress] = useState(false);
+  const [paymentStatusMessage, setPaymentStatusMessage] = useState('');
+  const [isErrorExists, setIsErrorExists] = useState(false);
+
+  useEffect(() => {
+    if (paymentStatusMessage) {
+      setTimeout(() => {
+        setPaymentStatusMessage('');
+        setIsErrorExists(false);
+      }, 7000);
+    }
+  }, [paymentStatusMessage, isErrorExists]);
+
   const stripe = useStripe();
   const elements = useElements();
 
@@ -13,6 +28,8 @@ const PaymentForm = () => {
     if (!stripe || !elements) {
       return;
     }
+
+    setIsPaymentInProgress(true);
 
     const paymentIntentResponse = await fetch(
       '/.netlify/functions/create-payment-intent',
@@ -43,21 +60,38 @@ const PaymentForm = () => {
       }
     );
 
+    setIsPaymentInProgress(false);
+
     if (error) {
-      console.log('paymentConfirmError: ', error);
+      setPaymentStatusMessage(`${error.message}`);
+      setIsErrorExists(true);
     } else {
       if (paymentIntent && paymentIntent.status === 'succeeded') {
-        console.log('Payment successful!');
+        setPaymentStatusMessage('Payment successful!');
       }
     }
   };
 
   return (
-    <div className={styles.paymentFormContainer}>
+    <div className={styles.paymentContainer}>
+      <div
+        className={`
+        ${styles.paymentStatusMessage} 
+        ${paymentStatusMessage && !isErrorExists ? styles.successMessage : ''} 
+        ${paymentStatusMessage && isErrorExists ? styles.errorMessage : ''}`}
+      >
+        {paymentStatusMessage}
+      </div>
+
       <form className={styles.formContainer} onSubmit={handleSubmit}>
         <h2>Credit Card Payment:</h2>
         <CardElement />
-        <Button disabled={!stripe}>Pay now</Button>
+        <Button
+          disabled={!stripe || isPaymentInProgress}
+          isLoading={isPaymentInProgress}
+        >
+          Pay now
+        </Button>
       </form>
     </div>
   );
